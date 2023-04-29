@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 // #[Route('/product')]
 class ProductController extends AbstractController
@@ -31,7 +32,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/new', name: 'app_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProductRepository $productRepository, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -51,25 +52,19 @@ class ProductController extends AbstractController
 
                 $newFilename = uniqid().'.'.$imageFile->guessExtension();
 
-                // Move the file to the directory where brochures are stored
                 try {
                     $imageFile->move(
                         $this->getParameter('upload_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    $this->addFlash("warning", "Impossible d'ajouter l'image ");
+                    $this->addFlash('warning', $translator->trans('flash.warning.image'));
                 }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
                 $product->setImage($newFilename);
             }
             $em->persist($product);
             $em->flush();
-            $this->addFlash('sucess', 'product.added');
-            
-
+            $this->addFlash('success', $translator->trans('flash.success.produit'));
         }
 
         return $this->render('product/new.html.twig', [
@@ -79,13 +74,14 @@ class ProductController extends AbstractController
     }
 
 
-
-
     #[Route('/product/{id}', name: 'app_product_show', methods: ['GET', 'POST'])]
     public function show(Product $product,EntityManagerInterface $em, Request $r,BagItemRepository $bagItemRepository, 
-    BagRepository $bagRepository): Response
+    BagRepository $bagRepository, TranslatorInterface $translator): Response
     {
-
+        if($product == null){
+            $this->addFlash('danger', $translator->trans('flash.danger.produit'));
+            return $this->redirectToRoute('app_product_index');
+        }
  
         $bagItem = new BagItem();
         //$form = $this->createForm(BagItemType::class, $bagItem);
@@ -139,13 +135,14 @@ class ProductController extends AbstractController
                 $newQuantity = $existingQuantity + $productQuantity;
 
                 if($newQuantity >  $maxQuantity){
-                    $existingBagItem->setQuantity($maxQuantity);
+                    $existingBagItem->setQuantity($maxQuantity);  
                 }
                 else{
                     $existingBagItem->setQuantity($newQuantity);
                 }  
 
             }
+            $this->addFlash('success', $translator->trans('flash.success.buy'));
             $em->flush();
 
         }
@@ -157,8 +154,13 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, ProductRepository $productRepository): Response
+    public function edit(Request $request, Product $product, ProductRepository $productRepository, TranslatorInterface $translator): Response
     {
+        if($product == null){
+            $this->addFlash('danger', $translator->trans('flash.danger.produit'));
+            return $this->redirectToRoute('app_product_index');
+        }
+        
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -175,10 +177,15 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/{id}', name: 'app_product_delete', methods: ['POST'])]
-    public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
+    public function delete(Request $request, Product $product, ProductRepository $productRepository, TranslatorInterface $translator): Response
     {
+        if($product == null){
+            $this->addFlash('danger', $translator->trans('flash.danger.produit'));
+        }
+        
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $productRepository->remove($product, true);
+            $this->addFlash('warning', $translator->trans('flash.warning.produit'));
         }
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);

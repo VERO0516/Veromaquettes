@@ -16,6 +16,7 @@
                 <p> {{ 'prix'|trans }} : {{ product.price }}€</p>
                 {# {{form(form)}} #}
                 {# {{ form(form, {'attr': {'class': 'd-flex flex-row'}}) }} #}
+                {% if product.stock > 0 %}
 
                 {{ form_start(form) }}
                     {{ form_widget(form, {'attr': {'class': 'd-flex flex-row'}}) }}
@@ -23,7 +24,10 @@
                         {{ button_label|default('produit.add'|trans) }}
                     </button>
                 {{ form_end(form) }}
-
+                {% else %}
+                    <p class="text-danger text-center m-0"> Disponible </p>
+                   
+                {% endif %}
             </div>
 
         </div>

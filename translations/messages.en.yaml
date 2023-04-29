@@ -61,3 +61,19 @@ error :
       title : Oops! Something went wrong
       text : We are sorry, but it seems that an error has occurred. Please try again later.
 
+flash :
+  warning :
+      image : Unable to add image.
+      produit : Product removed.
+      max : Your item has been added, unfortunately we only have X of them available in stock. The quantity has been adjusted in your bag.
+      user : You need to login.
+      order : You are not authorized to view this order.
+      login : You are logged in.
+  success : 
+      produit : Product added.
+      buy :  Your item has been added to cart !
+      reg : Congratulations, you have successfully registered.
+      paniersup : Item removed from cart.
+      quantity : The quantity of the article has been modified in the bag.
+  danger : 
+      produit : product not found.

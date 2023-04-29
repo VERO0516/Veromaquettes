@@ -60,3 +60,20 @@ error :
   error :
       title : Oups! Quelque chose s'est mal passé
       text : Nous sommes désolés, mais il semble qu'une erreur se soit produite. Veuillez réessayer plus tard.
+
+flash :
+  warning :
+      image : Impossible d'ajouter l'image
+      produit : Produit supprimé.
+      max : Votre article a bien t ajoute, malheureusement nous n'en avons plus que X de disponible en stockLa quantite a et ajustee dans votre panier.
+      user : Vous devez vous connecter.
+      order : Vous n'êtes pas autorisé à consulter cette commande.
+      login : Vous êtes connecté(e).
+  success : 
+      produit : Produit ajouté
+      buy :  Votre article a bien été ajouté au panier !
+      reg : Félicitations, votre inscription est réussie.
+      paniersup : Article retiré du panier.
+      quantity : La quantite de l'article a bien t modifie dans le panier.
+  danger : 
+      produit : produit introuvable.

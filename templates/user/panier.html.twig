@@ -39,12 +39,13 @@
                 
                     {#   {{p.ProductId.stock }} #}
                 {% else %}
-                <p>  Disponible </p>
+                <p class="text-danger text-center m-0"> Disponible </p>
                    
                 {% endif %}
                
             </td>
-            <td> 
+            <td>
+                {% if p.ProductId.stock > 0 %}
                 <form method="post" action="{{ path('app_user_modifier', {'id': p.id}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('edit-' ~ p.id) }}" />
                     <input type="hidden" name="id" value="{{ p.id }}" />
@@ -59,6 +60,12 @@
                         {# <button type="submit">Update</button> #}
                      </div>
                 </form>
+                
+                {% else %}
+                <p class="text-danger text-center m-0"> Disponible </p>
+                   
+                {% endif %}
+                
 
             </td>
             <td> {{p.ProductId.price }}€</td>

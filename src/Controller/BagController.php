@@ -9,18 +9,18 @@ use App\Entity\Bag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface as TranslationTranslatorInterface;
 
 class BagController extends AbstractController
 {
     #[Route('/bag', name: 'app_bag')]
-    public function index(BagRepository $bagRepository,BagItemRepository $bagItemRepository): Response
+    public function index(BagRepository $bagRepository,BagItemRepository $bagItemRepository, TranslationTranslatorInterface $translator): Response
     {
-        if ($this->getUser()) {
-
-            // $user = $security->getUser();
-            // $userId = $user->getId();
-            $userId = $this->getUser();
+        if (!$this->getUser()) {
+            $this->addFlash('warning', $translator->trans('flash.warning.user'));
+            return $this->redirectToRoute('app_login');
         }
+        $userId = $this->getUser();
         $bags = $bagRepository->findBy(['useId' => $userId, 'status' => '1']);
 
         $totalPrices = [];
@@ -42,11 +42,20 @@ class BagController extends AbstractController
     }
 
     #[Route('/voircommande/{id}/', name: 'app_bag_voircommande' )]
-    public function voircommande(int $id, BagItemRepository $bagItemRepository, BagRepository $bagRepository): Response
+    public function voircommande(int $id, BagItemRepository $bagItemRepository, BagRepository $bagRepository, TranslationTranslatorInterface $translator): Response
     {
+        if (!$this->getUser()) {
+            $this->addFlash('warning', $translator->trans('flash.warning.user'));
+            return $this->redirectToRoute('app_login');
+        }
         $bagItems = $bagItemRepository->findBy(['bagId' => $id]);
+        $bag = $bagRepository->findOneBy(['id' => $id]); 
+        $userId = $this->getUser();
 
-        $bag = $bagRepository->findOneBy(['id' => $id]);  
+        if($userId != $bag->getUseId()){
+            $this->addFlash('warning', $translator->trans('flash.warning.order'));
+            return $this->redirectToRoute('app_bag');
+        }
         
         return $this->render('bag/voircommande.html.twig', [
             "bagId" =>$id,

@@ -21,18 +21,21 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
+use Symfony\Contracts\Translation\TranslatorInterface as TranslationTranslatorInterface;
+
 class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user')]
-    public function index(UserRepository $UserRepository): Response
+    public function index( TranslationTranslatorInterface $translator): Response
     {
-        if ($this->getUser()) {
+        if (!$this->getUser()) {
 
             //$user = $security->getUser();
            // $userId = $user->getId();
-           $user = $this->getUser();
+           $this->addFlash('warning', $translator->trans('flash.warning.user'));
+           return $this->redirectToRoute('app_login');
         }
-        
+        $user = $this->getUser();
         return $this->render('user/index.html.twig', [
             'user' => $user,
         ]);
@@ -49,13 +52,13 @@ class UserController extends AbstractController
     }
 
     #[Route('/panier', name: 'app_user_panier')]
-    public function Panier(UserRepository $UserRepository,BagRepository $bagRepository, BagItemRepository $bagItemRepository): Response
+    public function Panier(BagRepository $bagRepository, BagItemRepository $bagItemRepository,TranslationTranslatorInterface $translator): Response
     {
-        if ($this->getUser()) {
-
-           $user = $this->getUser();
+        if (!$this->getUser()) {
+            $this->addFlash('warning', $translator->trans('flash.warning.user'));
+            return $this->redirectToRoute('app_login');
         }
-
+        $user = $this->getUser();
         //$bagRepository = $this->getDoctrine()->getRepository(Bag::class);
         $bag = $bagRepository->findOneBy(['useId' => $user, 'status' => '0']);
 
@@ -70,7 +73,8 @@ class UserController extends AbstractController
 
     }
     #[Route('/panier/modifier', name: 'app_user_modifier', methods: ['GET', 'POST'])]    
-    public function modifier(Request $request, BagItemRepository $bagItemRepository,EntityManagerInterface $em,ProductRepository $productRepository): Response
+    public function modifier(Request $request, BagItemRepository $bagItemRepository,EntityManagerInterface $em,ProductRepository $productRepository,
+     TranslationTranslatorInterface $translator ): Response
     {
 
             $action = $request->request->get('action');
@@ -86,10 +90,6 @@ class UserController extends AbstractController
 
             if($quantity != $inputValue){
 
-                // if($inputValue === 0){
-                //     $bagItemRepository->remove($bagItem, true);
-                //     return $this->redirectToRoute('app_user_panier', [], Response::HTTP_SEE_OTHER);
-                // }
                 $changeQuantity = $inputValue;
             }else{
 
@@ -97,19 +97,12 @@ class UserController extends AbstractController
 
                     //$bagItem->setQuantity($quantity+1);
                     $changeQuantity++;
-                    $text = 'augmenter +';
+                    //$text = 'augmenter +';
     
                 } elseif ($action === 'decrement') {  #réduirer -
                     
                     $changeQuantity--;
-                    // if($quantity <= 1){
-                    //     $bagItemRepository->remove($bagItem, true);
-                    //     return $this->redirectToRoute('app_user_panier', [], Response::HTTP_SEE_OTHER);
-                    // }
-                    // else{
-                    //     $bagItem->setQuantity($quantity-1);
-                    // }
-                    $text = 'réduirer -';
+
                 }
             }
 
@@ -117,36 +110,32 @@ class UserController extends AbstractController
                 $bagItemRepository->remove($bagItem, true);
                 return $this->redirectToRoute('app_user_panier', [], Response::HTTP_SEE_OTHER);
             }
-
-            if($changeQuantity > $product->getStock())
+            $this->addFlash('success', $translator->trans('flash.success.quantity'));
+            if($changeQuantity > $product->getStock()){
                 $changeQuantity = $product->getStock();
-
-           
+                $this->addFlash('warning', $translator->trans('flash.warning.max', ['X' => $product->getStock()]));
+            }else{
+                $this->addFlash('success', $translator->trans('flash.success.quantity'));
+            }
+                
             $bagItem->setQuantity($changeQuantity);
             $em->persist($bagItem);
             $em->flush();
 
-    
-        
-        // return $this->render('user/modifier.html.twig', [
-        //     'text' => $text, 
-        //     'action' => $action,
-        //     'id' => $id, 
-        //     'bagItem' => $bagItem,
-        //     'quantity' => $quantity,
-        //     'inputValue' => $inputValue,
-        //     'productId' => $productId,
-
-        // ]);
         return $this->redirectToRoute('app_user_panier', [], Response::HTTP_SEE_OTHER);
 
     }
 
     #[Route('/panier/{id}', name: 'app_panier_delete', methods: ['POST'])]
-    public function delete(Request $request, BagItem $bagItem, BagItemRepository $bagItemRepository): Response
+    public function delete(Request $request, BagItem $bagItem, BagItemRepository $bagItemRepository, TranslationTranslatorInterface $translator ): Response
     {
+        if($bagItem == null){
+            $this->addFlash('danger', $translator->trans('flash.danger.produit'));
+        }
+
         if ($this->isCsrfTokenValid('delete'.$bagItem->getId(), $request->request->get('_token'))) {
             $bagItemRepository->remove($bagItem, true);
+            $this->addFlash('success', $translator->trans('flash.success.paniersup'));
         }
 
         return $this->redirectToRoute('app_user_panier', [], Response::HTTP_SEE_OTHER);
@@ -154,10 +143,21 @@ class UserController extends AbstractController
 
     #[Route('/user/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher
-    , UserAuthenticatorInterface $userAuthenticator, AuthAuthenticator $authenticator ): Response
+    , UserAuthenticatorInterface $userAuthenticator, AuthAuthenticator $authenticator, TranslationTranslatorInterface $translator ): Response
     {
+        
+        if (!$this->getUser()) {
+            $this->addFlash('warning', $translator->trans('flash.warning.user'));
+            return $this->redirectToRoute('app_login');
+        }
+
         $form = $this->createForm(ChangePasswordType::class, $user);
         $form->handleRequest($request);
+
+        if($this->getUser() != $user){
+            $this->addFlash('warning', $translator->trans('flash.warning.order'));
+            return $this->redirectToRoute('app_product_index');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -177,8 +177,6 @@ class UserController extends AbstractController
                 $request
             );
 
-
-            
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }

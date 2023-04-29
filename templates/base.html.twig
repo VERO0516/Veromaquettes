@@ -28,11 +28,11 @@
                   <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_user_list')}}">Product</a>
                   </li>
-                  {% if is_granted('ROLE_SUPER_ADMIN') %}
+                  {# {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <li class="nav-item">ROLE_ADMIN</li>
                   {% else  %}
                     <li class="nav-item">ROLE_USER</li>
-                  {% endif %}
+                  {% endif %} #}
                 </ul>
                 <ul class="navbar-nav ms-auto">
                   {% if app.user %}
@@ -61,6 +61,14 @@
               </div>
             </div>
           </nav>
+          <div>
+            {# <p class="alert alert-sucess text-center">  Pas de catrgory </p> #}
+            {% for type, messages in app.flashes %}
+              {% for m in messages %}
+                  <p class="alert alert-{{type}} text-center">{{ m }}</p>
+              {% endfor %}  
+            {% endfor %}
+          </div>
         </header>
         {% block body %}{% endblock %}
     </body>

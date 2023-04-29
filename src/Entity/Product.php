@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
@@ -29,6 +31,7 @@ class Product
     private ?int $stock = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
     private ?string $image = null;
 
     #[ORM\OneToMany(mappedBy: 'ProductId', targetEntity: BagItem::class)]
@@ -132,6 +135,16 @@ class Product
         }
 
         return $this;
+    }
+
+    #[ORM\PostRemove]
+    public function deleteImage(){
+
+        if($this->image != null ){
+            unlink(__DIR__.'/../../public/uploads/'.$this->image );
+
+        }
+        return true;
     }
 
 
