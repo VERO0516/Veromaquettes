@@ -48,3 +48,16 @@ retour : < BACK
 payer : PAY
 edit : EDIT
 save : SAVE
+
+error :
+  home : return to the homepage
+  error404 :
+      title : Page not found
+      text : The requested page couldn't be located. Checkout for any URL misspelling or
+  error403 :
+      title : Server Error
+      text : Sorry, access to this resource is denied. You do not have the necessary authorization to access this page.
+  error :
+      title : Oops! Something went wrong
+      text : We are sorry, but it seems that an error has occurred. Please try again later.
+

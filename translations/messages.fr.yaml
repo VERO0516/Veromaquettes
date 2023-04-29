@@ -48,3 +48,15 @@ retour : < RETOUR
 payer : PAYER
 edit : MODIFIER
 save : sauvegarder 
+
+error :
+  home : retour à la page d'accueil
+  error404 :
+      title : Page introuvable
+      text : La page demandée est introuvable. Vérification pour toute faute d'orthographe d'URL ou
+  error403 :
+      title : Erreur serveur
+      text : Désolé, l'accès à cette ressource est refusé. Vous n'avez pas l'autorisation nécessaire pour accéder à cette page.
+  error :
+      title : Oups! Quelque chose s'est mal passé
+      text : Nous sommes désolés, mais il semble qu'une erreur se soit produite. Veuillez réessayer plus tard.
