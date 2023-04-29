@@ -1,0 +1,50 @@
+nav:
+  panier : panier
+  compte : Mon compte
+  inscrire : S'INSCRIRE
+  connecter : SE CONNECTER
+  deconnecter : SE DECONNECTER
+
+user :
+  prenom : PRENOM
+  nom : NOM
+  email : Email
+  mdp : MOT DE PASS
+  edit: Modifier le profil
+  voir : Voir toutes mes commandes
+  sign : S'identifier
+
+action:
+  modif : MODIFIER
+  sup : SUPPRIMER
+  add : Ajouter un nouveau produit
+  action : ACTION
+  voir : VOIR
+
+title :
+  commandes : Mes commandes
+  panier : Votre Panier
+
+panier : 
+  vide : Votre panier est vide.
+  buy : Continuer mes achats»
+
+order:
+  history : Historique des commandes
+  vide : Vous n'avez pas encore de commandes.
+
+produit : 
+  edit : Modifier le produit
+  produit: PRODUIT
+  des : description
+  add : AJOUTER AU PANIER
+
+disponible : DISPONIBILITÉ
+qte : QTÉ
+prix : PRIX
+total: TOTAL
+commande : COMMANDE
+retour : < RETOUR
+payer : PAYER
+edit : MODIFIER
+save : sauvegarder 

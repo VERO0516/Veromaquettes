@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <h1>Toutes les Users</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>E-mail</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for u in users %}
+            <tr>
+                <td>{{ u.lastName }}</td>
+                <td>{{ u.firstName}}</td>
+                <td>{{ u.email}}</td>
+                <td>{{ u.roles|join(', ') }}</td>
+                <td> <a href="{{ path('app_product_edit', {'id': u.id}) }}">edit</a>
+                    <a href= "{{ path('app_user_edit', {'id': u.id}) }}">edit</a>
+                   
+                
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'order.history'|trans }} {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1>{{ 'order.history'|trans }}</h1>
+    {% if bags %}
+
+    {% set i = 0 %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DATE</th>
+                <th>{{ 'prix'|trans }}</th>
+                <th>{{ 'action.action'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in bags %}
+            <tr>    
+                <td>N° {{b.id}} </td>
+                <td>{{ b.purchaseDate|date('Y-m-d H:i:s') }} </td>
+                <td>
+                    {{totalPrices[i]}}€
+                    {% set i=i+1 %}
+                </td>
+                <td><a href="{{ path('app_bag_voircommande', {'id': b.id}) }}"> {{ 'action.voir'|trans }} </a></td>
+            </tr>
+                
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="mt-5">{{ 'order.vide'|trans }}</p>
+    {% endif %}
+    
+
+</div>
+
+
+{% endblock %}

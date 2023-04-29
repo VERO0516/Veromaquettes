@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1 class="mt-5"> {{ 'title.panier'|trans }}</h1>
+
+{% if bagItems %}
+{% set totalPrice = 0 %}
+<table class="table table-striped border mt-3">
+    <thead>
+        <tr>
+            <th> {{ 'produit.produit'|trans }} </th>
+            <th> {{ 'disponible'|trans }}</th>
+            <th> {{ 'qte'|trans }} </th>
+            <th> {{ 'prix'|trans }} </th>
+            <th> {{ 'total'|trans }} </th>
+            <th> {{ 'action.sup'|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in bagItems %}
+        
+        <tr>
+            <td class="d-flex flex-row "> 
+                <figure>
+                    <img src="{{ asset('/uploads/'~  p.ProductId.image) }}" class="img-thumbnail" alt={{ p.ProductId.name }} style="height: 100px; width: 100px;object-fit: cover;"/>
+                </figure>
+
+                <div class="ms-3">
+                    <p>{{p.ProductId}}</p>
+                  </div>
+            </td>
+            <td>
+                {% if p.ProductId.stock > 0 %}
+                <p class="text-success text-center m-0"> En stock </p>
+                
+                    {#   {{p.ProductId.stock }} #}
+                {% else %}
+                <p>  Disponible </p>
+                   
+                {% endif %}
+               
+            </td>
+            <td> 
+                <form method="post" action="{{ path('app_user_modifier', {'id': p.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('edit-' ~ p.id) }}" />
+                    <input type="hidden" name="id" value="{{ p.id }}" />
+                    <div>
+                        <button class="btn btn-primary" type="submit" name="action" value="decrement">-</button>
+                        {# <button type="submit" class="quantity-minus" data-id="{{ p.id }}" value="decrement">-</button> #}
+                        <input type="text" name="quantity" value="{{ p.quantity }}" class="quantity-input" />
+                        {# <button type="submit" class="quantity-plus" data-id="{{ p.id }}" value="increment">+</button> #}
+                        {# <p>{{ p.quantity }}</p> #}
+                        <button class="btn btn-primary" type="submit" name="action" value="increment">+</button>
+                        
+                        {# <button type="submit">Update</button> #}
+                     </div>
+                </form>
+
+            </td>
+            <td> {{p.ProductId.price }}€</td>
+            <td>{{ p.Quantity * p.ProductId.price }}€</td>
+            {% set totalPrice = totalPrice + (p.Quantity * p.ProductId.price) %}
+            <td>
+                <form method="post" action="{{ path('app_panier_delete', {'id': p.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ p.id) }}">
+                    <button class="btn btn-danger"> {{ 'action.sup'|trans }} </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+                
+    </tbody>
+</table>
+<div class="p-3 bg-body-secondary">
+    <p class="text-end">Total TTC :  {{ totalPrice }}€</p>
+</div>
+<div>
+    <button type="button " class="btn btn-primary">Payer</button>
+</div>
+
+
+{% else %}
+<p class="mt-5">{{ 'panier.vide'|trans }} <a href="{{ path('app_product_index') }}" class="link-underline-primary">{{ 'panier.buy'|trans }}</a> </p>
+{% endif %}
+
+</div>
+{% endblock %}

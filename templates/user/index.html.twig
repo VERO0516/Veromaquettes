@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+        <h1>{{ 'title.commandes'|trans }}</h1>
+        <p class="mt-5">{{ 'user.nom'|trans }} :{{ user.lastName }}</p>
+        <p>{{ 'user.prenom'|trans }} : {{ user.firstName}}</p>
+        <p>{{ 'user.email'|trans }} : {{ user.email}}</p>
+    
+    <a href="{{ path('app_user_edit', {'id': user.id}) }}"><p>{{ 'user.edit'|trans }}</p></a>
+    <a href="{{ path('app_bag', {'id': user.id}) }}">{{ 'user.voir'|trans }}</a>  
+    </div>
+
+    
+    
+{% endblock %}

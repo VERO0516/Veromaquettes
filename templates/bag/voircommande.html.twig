@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'order.history'|trans }} {% endblock %}
+
+{% block body %}
+
+{# {{ dump(bagItems) }} #}
+{% set totalPrice = 0 %}
+<div class="container mt-5">
+    <h1> {{ 'commande'|trans }} N°{{bagId}} || {{ bag.purchaseDate|date('Y-m-d H:i:s') }}</h1>
+    <a href="{{ path('app_bag') }}"><p> {{ 'retour'|trans }} </p></a>
+
+    <table class="table table-striped border mt-3">
+        <thead>
+            <tr>
+                <th> {{ 'produit.produit'|trans }} </th>
+                <th> {{ 'qte'|trans }} </th>
+                <th>{{ 'prix'|trans }} </th>
+                <th> {{ 'total'|trans }} </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in bagItems %}
+            
+            <tr>
+                <td class="d-flex flex-row "> 
+                    <figure>
+                        <img src="{{ asset('/uploads/'~  p.ProductId.image) }}" class="img-thumbnail" alt={{ p.ProductId.name }} style="height: 100px; width: 100px;object-fit: cover;"/>
+                    </figure>
+    
+                    <div class="ms-3">
+                        <p>{{p.ProductId}}</p>
+                      </div>
+                </td>
+                <td> 
+                    {{p.Quantity}}
+                </td>
+                <td> {{p.ProductId.price }}€</td>
+                <td>{{ p.Quantity * p.ProductId.price }}€</td>
+                {% set totalPrice = totalPrice + (p.Quantity * p.ProductId.price) %}
+            </tr>
+            {% endfor %}
+                    
+        </tbody>
+    </table>
+    <div class="p-3 bg-body-secondary">
+        <p class="text-end"> {{ 'total'|trans }} :  {{ totalPrice }}€</p>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

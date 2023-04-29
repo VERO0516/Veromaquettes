@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'produit'|trans }} {% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <div class="d-grid gap-2 col-2 mx-auto mt-5">
+                <a class="btn btn-primary" href="{{ path('app_product_new') }}">{{ 'action.add'|trans }}</a>
+            </div>
+        {% endif %}
+       
+        <div class="d-flex flex-row mb-3 mt-5" >
+            {% for product in products %}
+            <a class="no-underline" href="{{ path('app_product_show', {'id': product.id}) }}">
+                <div class="p-2 border border-dark-subtle ms-5">
+                <figure>
+                    <img src="{{ asset('/uploads/'~ product.image) }}" class="img-thumbnail" alt={{ product.name }} style="height: 200px; width: 200px;object-fit: cover;"/>
+                </figure>
+                <div>
+                    <h3> {{ product.name }} </h3>
+                    <p> {{ product.price }}€</p>
+                    <a href="{{ path('app_product_edit', {'id': product.id}) }}">{{ 'edit'|trans }}</a>
+                </div>
+            </a>
+    
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+   
+{% endblock %}

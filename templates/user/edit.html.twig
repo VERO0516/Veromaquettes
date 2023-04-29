@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'user.edit'|trans }} {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-5"> {{ 'user.edit'|trans }} </h1>
+        {# {{form(form)}} #}
+        <div class="mt-5">
+            {{ form_start(form) }}
+            {{ form_row(form.lastName, {'label': 'user.nom'|trans}) }}
+            {{ form_row(form.firstName, {'label': 'user.prenom'|trans} ) }}
+            {{ form_row(form.email, {'label': 'user.email'|trans} ) }}
+            {{ form_row(form.Password, {
+            label: 'user.mdp'|trans
+            }) }}
+
+             <button type="submit" class="btn btn-primary"> {{ 'save'|trans }} </button>
+        {{ form_end(form) }}
+
+        </div>
+    </div>
+   
+
+    
+{% endblock %}

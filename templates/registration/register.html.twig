@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'nav.inscrire'|trans }} {% endblock %}
+
+{% block body %}
+    <div  class="container">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+        <h1 class="mt-5">  {{ 'nav.inscrire'|trans }} </h1>
+        <div class="mt-5">
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.lastName, {'label': 'user.nom'|trans}) }}
+            {{ form_row(registrationForm.firstName, {'label': 'user.prenom'|trans} ) }}
+            {{ form_row(registrationForm.email, {'label': 'user.email'|trans} ) }}
+            {{ form_row(registrationForm.plainPassword, {
+            label: 'user.mdp'|trans
+            }) }}
+            {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn btn-primary"> {{ 'nav.inscrire'|trans }} </button>
+    {{ form_end(registrationForm) }}
+
+        </div>
+
+        
+
+
+    </div>
+
+{% endblock %}

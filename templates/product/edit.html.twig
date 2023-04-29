@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'produit.edit'|trans }} {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-5">{{ 'produit.edit'|trans }}</h1>
+        <div class="mt-5">
+            {{ include('product/_form.html.twig', {'button_label': 'user.edit'|trans }) }}
+            {{ include('product/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    
+{% endblock %}

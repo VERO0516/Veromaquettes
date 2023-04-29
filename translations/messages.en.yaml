@@ -1,0 +1,50 @@
+nav:
+  panier : Bag
+  compte : My Account
+  inscrire : REGISTER
+  connecter : LOGIN
+  deconnecter : LOGOUT
+
+user :
+  prenom : FIRST NAME
+  nom : LAST NAME
+  email : Email
+  mdp : Password
+  edit: Edit Profile
+  voir : View all my orders
+  sign : Sign in
+
+action:
+  modif : EDIT
+  sup : DELETE
+  add : Add a new product
+  action : ACTION
+  voir : VIEW
+
+title :
+  commandes : My orders
+  panier : Your Bag
+
+panier : 
+  vide : Your bag is empty.
+  buy : Continue shopping »
+
+order:
+  history : Order History
+  vide : You don't have any orders yet.
+
+produit : 
+  edit : Edit Product
+  produit: PRODUCT
+  des : description
+  add : ADD TO BAG
+
+disponible : AVAILABILITY
+qte : QTY
+prix : PRICE
+total: TOTAL
+commande : Order
+retour : < BACK
+payer : PAY
+edit : EDIT
+save : SAVE

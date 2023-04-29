@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="d-flex mt-5">
+            <div class="g-col-6">
+                <figure>
+                    <img src="{{ asset('/uploads/'~ product.image) }}" style="max-width: 500px;" />
+                </figure>
+            </div>
+            <div class="g-col-6 ms-5">
+                <h1> {{ 'produit.produit'|trans }} :{{ product.name }}</h1>
+                <p> {{ 'produit.des'|trans }} : {{ product.description }}</p>
+                <p> {{ 'prix'|trans }} : {{ product.price }}€</p>
+                {# {{form(form)}} #}
+                {# {{ form(form, {'attr': {'class': 'd-flex flex-row'}}) }} #}
+
+                {{ form_start(form) }}
+                    {{ form_widget(form, {'attr': {'class': 'd-flex flex-row'}}) }}
+                    <button class="btn btn-primary">
+                        {{ button_label|default('produit.add'|trans) }}
+                    </button>
+                {{ form_end(form) }}
+
+            </div>
+
+        </div>
+        
+    </div>
+
+    
+
+    
+   
+    {# {% if bag.id is not null %}
+        <p>bag : {{bag.id}}</p>
+    {% endif %} #}
+    {# <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ product.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ product.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ product.description }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ product.price }}</td>
+            </tr>
+            <tr>
+                <th>Stock</th>
+                <td>{{ product.stock }}</td>
+            </tr>
+        </tbody>
+    </table> #}
+
+    {# {{form(form)}}
+
+
+    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+
+    {{ include('product/_delete_form.html.twig') }} #}
+{% endblock %}
