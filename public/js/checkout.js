@@ -43,7 +43,7 @@ async function handleSubmit(e) {
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: "http://127.0.0.1:8001/stripe",
+      return_url: "http://127.0.0.1:8000/stripe",
       receipt_email: emailAddress,
     },
   });

@@ -48,6 +48,7 @@ retour : < RETOUR
 payer : PAYER
 edit : MODIFIER
 save : sauvegarder 
+valide : Validate my bag
 
 error :
   home : retour à la page d'accueil

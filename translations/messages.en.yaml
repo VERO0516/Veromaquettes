@@ -48,6 +48,7 @@ retour : < BACK
 payer : PAY
 edit : EDIT
 save : SAVE
+valide : Valider mon panier
 
 error :
   home : return to the homepage

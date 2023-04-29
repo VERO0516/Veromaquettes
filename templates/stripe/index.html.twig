@@ -3,19 +3,83 @@
 {% block title %}Hello StripeController!{% endblock %}
 
 {% block body %}
-    <form id="payment-form">
-      <div id="link-authentication-element">
-        <!--Stripe.js injects the Link Authentication Element-->
-      </div>
-      <div id="payment-element">
-        <!--Stripe.js injects the Payment Element-->
-      </div>
-      <button id="submit">
-        <div class="spinner hidden" id="spinner"></div>
-        <span id="button-text">Pay now</span>
-      </button>
-      <div id="payment-message" class="hidden"></div>
-    </form>
+<div class="container d-flex flex-row mt-5">
+    <div>
+        {% set totalPrice = 0 %}
+        <table class="table table-striped border mt-3">
+            <thead>
+                <tr>
+                    <th> {{ 'produit.produit'|trans }} </th>
+                    <th> {{ 'disponible'|trans }}</th>
+                    <th> {{ 'qte'|trans }} </th>
+                    <th> {{ 'prix'|trans }} </th>
+                    <th> {{ 'total'|trans }} </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in bagItems %}
+                
+                <tr>
+                    <td class="d-flex flex-row "> 
+                        <figure>
+                            <img src="{{ asset('/uploads/'~  p.ProductId.image) }}" class="img-thumbnail" alt={{ p.ProductId.name }} style="height: 100px; width: 100px;object-fit: cover;"/>
+                        </figure>
+
+                        <div class="ms-3">
+                            <p>{{p.ProductId}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        {% if p.ProductId.stock > 0 %}
+                        <p class="text-success text-center m-0"> En stock </p>
+                        
+                            {#   {{p.ProductId.stock }} #}
+                        {% else %}
+                        <p class="text-danger text-center m-0"> Disponible </p>
+                        
+                        {% endif %}
+                    
+                    </td>
+                    <td>
+                        {% if p.ProductId.stock > 0 %}
+                            {{ p.quantity }}
+                        {% else %}
+                        <p class="text-danger text-center m-0"> Disponible </p>
+                        
+                        {% endif %}
+                    </td>
+                    <td> {{p.ProductId.price }}€</td>
+                    <td>{{ p.Quantity * p.ProductId.price }}€</td>
+                    {% set totalPrice = totalPrice + (p.Quantity * p.ProductId.price) %}
+                </tr>
+                {% endfor %}
+                        
+            </tbody>
+        </table>
+        <div class="p-3 bg-body-secondary">
+            <p class="text-end">Total TTC :  {{ totalPrice }}€</p>
+        </div>
+
+    </div>
+    <div class="ms-5">
+        <form id="payment-form">
+            <div id="link-authentication-element">
+              <!--Stripe.js injects the Link Authentication Element-->
+            </div>
+            <div id="payment-element">
+              <!--Stripe.js injects the Payment Element-->
+            </div>
+            <button id="submit" class="btn btn-primary mt-2">
+              <div class="spinner hidden" id="spinner"></div>
+              <span id="button-text">Pay now</span>
+            </button>
+            <div id="payment-message" class="hidden"></div>
+          </form>
+    </div>
+    
+
+</div>
+    
 {% endblock %}
 
 {% block stylesheets %}

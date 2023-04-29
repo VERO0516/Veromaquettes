@@ -60,7 +60,7 @@
                         {# <button type="submit">Update</button> #}
                      </div>
                 </form>
-                
+                {% set totalPrice = totalPrice + (p.Quantity * p.ProductId.price) %}
                 {% else %}
                 <p class="text-danger text-center m-0"> Disponible </p>
                    
@@ -70,7 +70,6 @@
             </td>
             <td> {{p.ProductId.price }}€</td>
             <td>{{ p.Quantity * p.ProductId.price }}€</td>
-            {% set totalPrice = totalPrice + (p.Quantity * p.ProductId.price) %}
             <td>
                 <form method="post" action="{{ path('app_panier_delete', {'id': p.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ p.id) }}">
@@ -85,8 +84,8 @@
 <div class="p-3 bg-body-secondary">
     <p class="text-end">Total TTC :  {{ totalPrice }}€</p>
 </div>
-<div>
-    <button type="button " class="btn btn-primary">Payer</button>
+<div class="d-flex justify-content-end mt-2">
+    <a href="{{ path('app_stripe') }}" class="btn btn-primary"> {{ 'valide'|trans }} </a>
 </div>
 
 
