@@ -81,9 +81,13 @@ flash :
       reg : Congratulations, you have successfully registered.
       paniersup : Item removed from cart.
       quantity : The quantity of the article has been modified in the bag.
+      login : Welcome [username] !!!!
   danger : 
       produit : product not found.
 
 admin : 
   nouser : No user registered today
   nobuy : List of Unpurchased Bag
+
+accueil : 
+    vide : Sorry, there are no products available at the moment

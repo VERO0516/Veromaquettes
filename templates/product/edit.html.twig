@@ -7,7 +7,8 @@
         <h1 class="mt-5">{{ 'produit.edit'|trans }}</h1>
         <div class="mt-5">
             {{ include('product/_form.html.twig', {'button_label': 'user.edit'|trans }) }}
-            {{ include('product/_delete_form.html.twig') }}
+            {# {{ include('product/_delete_form.html.twig') }} #}
+            <a href="{{ path('product_delete', {'id': product.id}) }}" class="btn btn-danger"> {{ 'action.sup'|trans }} </a>
         </div>
     </div>
 

@@ -40,12 +40,6 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $product = new Product();
-
-            $form = $this->createForm(ProductType::class,$product);
-    
-            $form->handleRequest($request);
-
             $imageFile = $form->get('image')->getData();
 
             if ($imageFile) {
@@ -65,6 +59,7 @@ class ProductController extends AbstractController
             $em->persist($product);
             $em->flush();
             $this->addFlash('success', $translator->trans('flash.success.produit'));
+            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('product/new.html.twig', [
@@ -165,6 +160,24 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imageFile = $form->get('image')->getData();
+
+            if ($imageFile) {
+
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('upload_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    $this->addFlash('warning', $translator->trans('flash.warning.image'));
+                }
+                $product->setImage($newFilename);
+            }
+
             $productRepository->save($product, true);
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
@@ -176,19 +189,19 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/{id}', name: 'app_product_delete', methods: ['POST'])]
-    public function delete(Request $request, Product $product, ProductRepository $productRepository, TranslatorInterface $translator): Response
-    {
+    #[Route('/product/delet/{id}', name: 'product_delete')]
+    public function delete(Product $product = null, EntityManagerInterface $em, TranslatorInterface $translator){
         if($product == null){
             $this->addFlash('danger', $translator->trans('flash.danger.produit'));
         }
-        
-        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
-            $productRepository->remove($product, true);
+        else{
+            $em->remove($product);
+            $em->flush();
             $this->addFlash('warning', $translator->trans('flash.warning.produit'));
         }
 
-        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_product_index');
+
     }
 
     

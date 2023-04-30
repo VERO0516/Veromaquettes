@@ -16,7 +16,7 @@ class BagItem
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'bagItems')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Product $ProductId = null;
 
     #[ORM\ManyToOne(inversedBy: 'bagItems')]

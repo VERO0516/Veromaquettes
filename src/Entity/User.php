@@ -51,9 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->bags = new ArrayCollection();
         $this->date = new DateTime();
     }
-    /**
-     * @ORM\Column(type="datetime")
-     */
+
     public function getId(): ?int
     {
         return $this->id;

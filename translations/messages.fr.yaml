@@ -63,6 +63,9 @@ error :
   error :
       title : Oups! Quelque chose s'est mal passé
       text : Nous sommes désolés, mais il semble qu'une erreur se soit produite. Veuillez réessayer plus tard.
+  error500 : 
+      title : Erreur interne du serveur
+      text : Nous sommes désolés, mais il semble qu'une erreur se soit produite. Veuillez réessayer plus tard.
 
 flash :
   warning :
@@ -78,9 +81,13 @@ flash :
       reg : Félicitations, votre inscription est réussie.
       paniersup : Article retiré du panier.
       quantity : La quantite de l'article a bien t modifie dans le panier.
+      login : Bienvenue [username] !!!!
   danger : 
       produit : produit introuvable.
 
 admin : 
   nouser : Aucun utilisateur inscrit aujourd'hui
   nobuy : Liste des paniers non achetés
+
+accueil : 
+  vide : Désolé, il n'y a actuellement aucun produit disponible.

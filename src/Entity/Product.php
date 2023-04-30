@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
@@ -19,6 +20,13 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Your first name must be at least {{ limit }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+    )]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -30,8 +38,7 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(length: 100)]
-    #[Assert\NotBlank]
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $image = null;
 
     #[ORM\OneToMany(mappedBy: 'ProductId', targetEntity: BagItem::class)]
@@ -107,6 +114,15 @@ class Product
         return $this;
     }
 
+    #[ORM\PostRemove]
+    public function deleteImage(){
+
+        if($this->image != null ){
+            unlink(__DIR__.'/../../public/uploads/'.$this->image );
+        }
+        return true;
+    }
+
     /**
      * @return Collection<int, BagItem>
      */
@@ -124,7 +140,6 @@ class Product
 
         return $this;
     }
-
     public function removeBagItem(BagItem $bagItem): self
     {
         if ($this->bagItems->removeElement($bagItem)) {
@@ -136,18 +151,7 @@ class Product
 
         return $this;
     }
-
-    #[ORM\PostRemove]
-    public function deleteImage(){
-
-        if($this->image != null ){
-            unlink(__DIR__.'/../../public/uploads/'.$this->image );
-
-        }
-        return true;
-    }
-
-
+    
     public function __toString()
     {
         return $this->name;

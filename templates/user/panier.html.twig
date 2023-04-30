@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Panier{% endblock %}
+{% block title %} {{ 'title.panier'|trans }} {% endblock %}
 
 {% block body %}
 
@@ -51,13 +51,11 @@
                     <input type="hidden" name="id" value="{{ p.id }}" />
                     <div>
                         <button class="btn btn-primary" type="submit" name="action" value="decrement">-</button>
-                        {# <button type="submit" class="quantity-minus" data-id="{{ p.id }}" value="decrement">-</button> #}
+
                         <input type="text" name="quantity" value="{{ p.quantity }}" class="quantity-input" />
-                        {# <button type="submit" class="quantity-plus" data-id="{{ p.id }}" value="increment">+</button> #}
-                        {# <p>{{ p.quantity }}</p> #}
+
                         <button class="btn btn-primary" type="submit" name="action" value="increment">+</button>
                         
-                        {# <button type="submit">Update</button> #}
                      </div>
                 </form>
                 {% set totalPrice = totalPrice + (p.Quantity * p.ProductId.price) %}

@@ -11,26 +11,32 @@
             </div>
         {% endif %} 
        
-        <div class="d-flex flex-row mb-3 mt-5" >
-            {% for product in products %}
-            <a class="no-underline" href="{{ path('app_product_show', {'id': product.id}) }}">
-                <div class="p-2 border border-dark-subtle ms-5">
-                <figure>
-                    <img src="{{ asset('/uploads/'~ product.image) }}" class="img-thumbnail" alt={{ product.name }} style="height: 200px; width: 200px;object-fit: cover;"/>
-                </figure>
-                <div>
-                    <h3> {{ product.name }} </h3>
-                    <p> {{ product.price }}€</p>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('app_product_edit', {'id': product.id}) }}">{{ 'edit'|trans }}</a>
-                {% endif %} 
-                  
+        {% if products %}
+            <div class="d-flex flex-row flex-wrap mb-3 mt-5 " >
+                {% for product in products %}
+                <a class="no-underline" href="{{ path('app_product_show', {'id': product.id}) }}">
+                    <div class="p-2 border border-dark-subtle col-2 ms-5 mt-5">
+                    <figure>
+                        <img src="{{ asset('/uploads/'~ product.image) }}" class="img-thumbnail" alt={{ product.name }} style="height: 200px; width: 200px;object-fit: cover;"/>
+                    </figure>
+                    <div>
+                        <p> {{ product.name }} </p>
+                        <p> {{ product.price }}€</p>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_product_edit', {'id': product.id}) }}">{{ 'edit'|trans }}</a>
+                        {% endif %} 
+                      
+                    </div>
+                </a>
+        
                 </div>
-            </a>
-    
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
+        {% else %}
+        <p> {{ 'accueil.vide'|trans }} </p>
+
+        {% endif %}
+        
 
     </div>
 
