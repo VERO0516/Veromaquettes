@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-5">Dashboard</h1>
+        <ul class="mt-5">
+            <li>
+                <a href="{{ path('app_admin_user')}}"> {{ 'title.user'|trans }} </a>
+            </li>
+            <li class="mt-2">
+                <a href="{{ path('app_admin_commandes')}}"> {{ 'admin.nobuy'|trans }} </a>
+            </li>
+        </ul>
+       
+
+        
+
+    </div>
+{% endblock %}

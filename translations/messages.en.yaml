@@ -13,6 +13,7 @@ user :
   edit: Edit Profile
   voir : View all my orders
   sign : Sign in
+  date : Registration date
 
 action:
   modif : EDIT
@@ -24,6 +25,7 @@ action:
 title :
   commandes : My orders
   panier : Your Bag
+  user : The users registered today
 
 panier : 
   vide : Your bag is empty.
@@ -61,6 +63,9 @@ error :
   error :
       title : Oops! Something went wrong
       text : We are sorry, but it seems that an error has occurred. Please try again later.
+  error500 : 
+      title : Internal Server Error 
+      text : We are sorry, but it seems that an error has occurred. Please try again later.
 
 flash :
   warning :
@@ -78,3 +83,7 @@ flash :
       quantity : The quantity of the article has been modified in the bag.
   danger : 
       produit : product not found.
+
+admin : 
+  nouser : No user registered today
+  nobuy : List of Unpurchased Bag

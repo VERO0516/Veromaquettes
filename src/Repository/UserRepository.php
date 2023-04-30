@@ -56,6 +56,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
+    public function findUsersRegisteredToday()
+    {
+        $start = new \DateTime('today');
+        $end = new \DateTime('tomorrow');
+        $end->sub(new \DateInterval('PT1S'));
+
+        $qb = $this->createQueryBuilder('u');
+        $qb->where('u.date BETWEEN :start AND :end')
+        ->setParameter('start', $start)
+        ->setParameter('end', $end)
+        ->orderBy('u.date', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

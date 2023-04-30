@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'error.error500.title'|trans }} {% endblock %}
+
+{% block body %}
+    <div class="container d-flex flex-column align-items-center">
+        <h1 class="mt-5"> {{ 'error.error500.title'|trans }} </h1>
+        <p>
+            {{ 'error.error500.text'|trans }} <a href="{{ path('app_product_index')}}">{{ 'error.home'|trans }}</a>.
+        </p>
+        <figure class="">
+            <img src="{{ asset('/uploads/500.jpeg') }}" alt="error 500" />
+        </figure>
+    </div>
+
+{% endblock %}

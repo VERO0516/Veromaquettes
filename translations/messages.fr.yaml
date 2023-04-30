@@ -13,6 +13,7 @@ user :
   edit: Modifier le profil
   voir : Voir toutes mes commandes
   sign : S'identifier
+  date : Date d'inscription
 
 action:
   modif : MODIFIER
@@ -24,6 +25,7 @@ action:
 title :
   commandes : Mes commandes
   panier : Votre Panier
+  user : Les utilisateurs inscrits aujourd'hui
 
 panier : 
   vide : Votre panier est vide.
@@ -78,3 +80,7 @@ flash :
       quantity : La quantite de l'article a bien t modifie dans le panier.
   danger : 
       produit : produit introuvable.
+
+admin : 
+  nouser : Aucun utilisateur inscrit aujourd'hui
+  nobuy : Liste des paniers non achetés

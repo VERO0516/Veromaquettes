@@ -22,17 +22,16 @@
               <a class="navbar-brand" href="{{ path('app_product_index')}}">VeroMaquettesr</a>
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                  
+                  {% if is_granted('ROLE_SUPER_ADMIN') %}
                   <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_user_list')}}"> User </a>
+                    <a class="nav-link" href="{{ path('app_admin_user')}}"> User </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_user_list')}}">Product</a>
+                    <a class="nav-link" href="{{ path('app_admin_commandes')}}"> commandes </a>
                   </li>
-                  {# {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <li class="nav-item">ROLE_ADMIN</li>
-                  {% else  %}
-                    <li class="nav-item">ROLE_USER</li>
-                  {% endif %} #}
+                    
+                  {% endif %}
                 </ul>
                 <ul class="navbar-nav ms-auto">
                   {% if app.user %}

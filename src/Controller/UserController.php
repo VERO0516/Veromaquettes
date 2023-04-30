@@ -42,15 +42,6 @@ class UserController extends AbstractController
 
     }
 
-    #[Route('/user/list', name: 'app_user_list')]
-    public function userList(UserRepository $UserRepository): Response
-    {
-        return $this->render('user/userList.html.twig', [
-            'users' => $UserRepository->findAll(),
-        ]);
-
-    }
-
     #[Route('/panier', name: 'app_user_panier')]
     public function Panier(BagRepository $bagRepository, BagItemRepository $bagItemRepository,TranslationTranslatorInterface $translator): Response
     {

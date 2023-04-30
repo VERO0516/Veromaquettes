@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'admin.nobuy'|trans }} {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-5"> {{ 'admin.nobuy'|trans }} </h1>
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>User</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in bags %}
+                <tr>
+                    <td> {{b.id}} </td>
+                    <td> {{b.useId}} </td>
+                    <td> <a href="{{ path('app_admin_commande', {'id': b.id}) }}"> {{ 'action.voir'|trans }} </a> </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+{% endblock %}
